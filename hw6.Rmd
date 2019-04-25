@@ -1,0 +1,55 @@
+---
+title: 'Homework #6'
+author: "Carter Athens"
+date: "4/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Import the data and clean appropriately. To read in the data, you can use `readxl::read_xlsx('fileNameHere', sheet='sheetNameHere')`. Required data are in the sheets `Best in show` and `Best in show full sheet`. Take extra care on the column names and the first few rows of the data frame after read in.
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+
+bestDog <- readxl::read_xlsx('KIB - Best in Show (public).xlsx', sheet = 'Best in show full sheet', skip = 2) %>% select(Breed = `Sources - see bottom right`, 'Type of dog' = `category`, 'Size of dog' = `size category`, Score = `ULTIMATE TOP DOG MEGA SCORE`, Popularity = `POPULAR RATING`, Trainability = `1 INTELLIGENCE (TRAINABILITY) ranking`)
+
+bestDog[bestDog == 'no data'] <- NA
+
+bestDog <- bestDog %>% mutate('Type of dog' = as.factor('Type of dog'), Trainability = as.numeric(Trainability), 'Size of dog' = as.factor('Size of dog'))
+
+bestDog$Size <- factor(bestDog$'Size of dog', levels(bestDog$'Size of dog')[c(1, 2, 3)])
+
+bestDog <- bestDog[-c(1), ]
+
+#bestDog$Trainability[bestDog$Trainability <= 40] <- 0
+#bestDog$Trainability[bestDog$Trainability > 40] <- 1
+#bestDog <- bestDog %>% subset(Trainability <= 1) #This command just subsets all of the trainability rows with a numeric variable, getting rid of the NA values which makes the plot cleaner
+
+#bestDog <- bestDog %>% mutate(Trainability = as.factor(Trainability))
+```
+
+2. Create a graphics similar to the  [top dogs](https://informationisbeautiful.net/visualizations/best-in-show-whats-the-top-data-dog/) figure. Your figure need to display the following information with appropriate plotting elements:
+
+- breed of dog
+- type of dog (work, toy, etc.)
+- size of dog
+- data score 
+- popularity
+- intelligence of the dog
+- appropriate legends & explanation
+
+```{r}
+
+
+```
+
+Hints and Notes:
+
+- The breed of dog can be displayed without the silhouttes (text only is fine)
+- Avoid (too much) overlap!
+- Choose a good color scheme.
+- Your submission is supposed to be fully reproducible, i.e. the TA and I will 'knit' your submission in RStudio. 
